@@ -2,6 +2,10 @@
 
 use \SMSPlan\Page;
 use \SMSPlan\Model\User;
+use SMSPlan\Model\Unidade;
+use SMSPlan\Model\Grupo;
+use SMSPlan\Model\SubGrupo;
+use SMSPlan\Model\CCusto;
 use \SMSPlan\Model\RelCC;
 
 $app->get('/', function() {
@@ -113,6 +117,26 @@ $app->post("/forgot/reset", function() {
 
 $app->get('/relcc', function() {
 
+    User::verifyLogin();
+    User::setSessao("custos,cadastros,ccustos");
+
+    $page = new Page();
+
+    $unidade = Unidade::listAll();
+    $grupo = Grupo::listAll();
+    $subgrupo = SubGrupo::listAll();
+    $ccusto = CCusto::listAll();
+
+    $page->setTpl("relcc", [
+        "unidade" => $unidade,
+        "grupo" => $grupo,
+        "subgrupo" => $subgrupo,
+        "ccusto" => $ccusto
+    ]);
+});
+
+$app->post('/relcc', function() {
+
     User::verifyLogin(false);
     User::setSessao("custos,relcc,");
 
@@ -129,10 +153,48 @@ $app->get('/relcc', function() {
         "footer" => true
     ]);
 
-    $ano = 2017;
-    $mesi = 1;
+    $ano = $_POST['ano'];
+    $mesi = $_POST['mes'];
 
-    $centrosdecusto = RelCC::ListCC($ano, $mesi);
+    $cond = '';
+    $mes1 = 'Jan';
+    $mes2 = 'Fev';
+    $mes3 = 'Mar';
+    $mes4 = 'Abr';
+
+    if ($mesi == 1) {
+        $mes1 = 'Jan';
+        $mes2 = 'Fev';
+        $mes3 = 'Mar';
+        $mes4 = 'Abr';
+    }
+    if ($mesi == 5) {
+        $mes1 = 'Mai';
+        $mes2 = 'Jun';
+        $mes3 = 'Jul';
+        $mes4 = 'Ago';
+    }
+    if ($mesi == 9) {
+        $mes1 = 'Set';
+        $mes2 = 'Out';
+        $mes3 = 'Nov';
+        $mes4 = 'Dez';
+    }
+
+    if ($_POST['id_CentroCusto'] != 'null') {
+        $cond = $cond . ' AND id_CentroCusto = ' . $_POST['id_CentroCusto'];
+    }
+    if ($_POST['id_Unidade'] != 'null') {
+        $cond = $cond . ' AND b.id_Unidade = ' . $_POST['id_Unidade'];
+    }
+    if ($_POST['id_GrupoCC'] != 'null') {
+        $cond = $cond . ' AND id_GrupoCC = ' . $_POST['id_GrupoCC'];
+    }
+    if ($_POST['id_SubGrupoCC'] != 'null') {
+        $cond = $cond . ' AND id_SubGrupoCC = ' . $_POST['id_SubGrupoCC'];
+    }
+
+    $centrosdecusto = RelCC::ListCC($ano, $mesi, $cond);
 
     if (count($centrosdecusto) > 0) {
         $pageh->setTpl("relccheader");
@@ -145,11 +207,11 @@ $app->get('/relcc', function() {
 
 
             $pagec->setTpl("relccheadercc", [
-                "mes1" => 'Jan',
-                "mes2" => 'Fev',
-                "mes3" => 'Mar',
-                "mes4" => 'Abr',
-                "ano" => '2017',
+                "mes1" => $mes1,
+                "mes2" => $mes2,
+                "mes3" => $mes3,
+                "mes4" => $mes4,
+                "ano" => $ano,
                 "unidade" => $unidade <> $cc['UnDescricao'] ? $cc['id_Unidade'] . '-' . $cc['UnDescricao'] : "",
                 "grupo" => $gcc <> $cc['DescGrupoCC'] ? $cc['id_GrupoCC'] . '-' . $cc['DescGrupoCC'] : "",
                 "subgrupo" => $gscc <> $cc['DescSubGrupoCC'] ? $cc['id_subGrupoCC'] . '-' . $cc['DescSubGrupoCC'] : "",

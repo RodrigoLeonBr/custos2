@@ -7,7 +7,7 @@ use SMSPlan\Model;
 
 class RelCC extends Model {
 
-    public static function ListCC($ano, $mesi) {
+    public static function ListCC($ano, $mesi, $cond = '') {
 
         $sql = new Sql();
 
@@ -24,8 +24,8 @@ class RelCC extends Model {
                             INNER JOIN c_tabsubgrupocc d on d.idsubGrupoCC = b.id_subGrupoCC
                             INNER JOIN c_tabunidade e ON idUnidade = b.id_Unidade
                             WHERE Ano = :ano AND
-                            Mes >= :mesi and Mes <= :mesi+3
-                            GROUP BY b.id_Unidade, OrdemGrupo, b.id_GrupoCC, OrdemSubGrupo, b.id_subGrupoCC, id_CentroCusto
+                            Mes >= :mesi and Mes <= :mesi+3 " . $cond .
+                        " GROUP BY b.id_Unidade, OrdemGrupo, b.id_GrupoCC, OrdemSubGrupo, b.id_subGrupoCC, id_CentroCusto
                             ORDER BY b.id_Unidade, OrdemGrupo, b.id_GrupoCC, OrdemSubGrupo, b.id_subGrupoCC, id_CentroCusto
                     ", array(
                     ":ano" => $ano,

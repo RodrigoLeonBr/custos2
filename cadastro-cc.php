@@ -5,7 +5,7 @@ use SMSPlan\Model\User;
 use SMSPlan\Model\Unidade;
 use SMSPlan\Model\Grupo;
 use SMSPlan\Model\SubGrupo;
-use SMSPlan\Model\Ccusto;
+use SMSPlan\Model\CCusto;
 
 $app->get("/ccustos", function() {
 

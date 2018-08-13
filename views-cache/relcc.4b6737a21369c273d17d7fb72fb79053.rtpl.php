@@ -1,232 +1,117 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?><!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Relatório de Custos
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Principal</a></li>
+            <li>Custos</li>
+            <li class="active"><a href="/relcc">Relatório por Centro de Custo</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
     <section class="content">
+
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-condensed table-hover">
-                    <!-- Cabeçalho -->
-                    <tr><th colspan=9 style="line-height: 22px; font-size: 170%"><strong>Secretaria Municipal de Saúde - Americana/SP</strong></th></tr>
-                    <tr><th colspan=9 style="line-height: 22px; font-size: 150%"><strong>Prefeitura Municipal de Americana</strong></th></tr>
-                    <tr><th colspan=9 style="line-height: 22px; font-size: 150%"><strong>Estado de São Paulo</strong></th></tr>
-                    <tr><th colspan=9 style="line-height: 22px; font-size: 150%"><strong>Unidade de Planejamento</strong></th></tr>
-                    <tr><th colspan=9 style="line-height: 22px; font-size: 130%"><strong>Custos da Secretaria de Saúde - Custo por Setor</strong></th></tr>
-                    <tr><th>&nbsp;</th></tr>
-                    <!-- FIM Cabeçalho -->
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Escolher os Filtros Desejados</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" action="/relcc" method="post">
+                        <div class="row col-md-12">
+                            <!-- Ano -->
+                            <div class="form-group col-md-3">
+                                <label>Ano :
+                                    <select name="ano" class="form-control">
+                                        <option value="null"> Selecione o Ano: </option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <!-- Mês -->
+                            <div class="form-group col-md-3">
+                                <label>Quadrimestre :
+                                    <select name="mes" class="form-control">
+                                        <option value="null"> Selecione o Quadrimestre: </option>
+                                        <option value="1">Jan a Abr</option>
+                                        <option value="5">Mai a Ago</option>
+                                        <option value="9">Set a Dez</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <!-- Centro de Custo -->
+                            <div class="box-body">
+                                <div class="form-group col-md-5">
+                                    <label>Centro de Custo :
+                                        <select name="id_CentroCusto" class="form-control">
+                                            <option value="null">Centro de Custo: </option>
+                                            <?php $counter1=-1;  if( isset($ccusto) && ( is_array($ccusto) || $ccusto instanceof Traversable ) && sizeof($ccusto) ) foreach( $ccusto as $key1 => $value1 ){ $counter1++; ?>
 
-                    <!-- Título do Centro de Custo -->
-                    <tr>
-                        <td colspan=9 style='border-bottom: 1px solid black;'><strong>CENTRO DE CUSTO: 0000 - XXXXXXXXXXX</strong></td>
-                    </tr>
-                    <!-- FIM Título do Centro de Custo -->
+                                            <option value="<?php echo htmlspecialchars( $value1["idCentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["DescCentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
+                                            <?php } ?>
 
-                    <!-- Título dos Meses -->
-                    <tr>
-                        <td></td>
-                        <td align=right><b>01/2000</b></td>
-                        <td align=right></td>
-                        <td align=right><b>02/2000</b></td>
-                        <td align=right></td>
-                        <td align=right><b>03/2000</b></td>
-                        <td align=right></td>
-                        <td align=right><b>04/2000</b></td>
-                        <td align=right></td>
-                    </tr>
-                    <!-- FIM Título dos Meses -->
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="form-group col-md-3">
+                                <label>Unidade :
+                                    <select name="id_Unidade" class="form-control">
+                                        <option value="null"> Selecione a Unidade: </option>
+                                        <?php $counter1=-1;  if( isset($unidade) && ( is_array($unidade) || $unidade instanceof Traversable ) && sizeof($unidade) ) foreach( $unidade as $key1 => $value1 ){ $counter1++; ?>
 
-                    <!-- Custos Diretos Título -->
-                    <tr>
-                        <td style='width: 30%'><b>CUSTOS DIRETOS </b></td>
-                        <td style='width: 12%' align=right><b>Valor</b></td>
-                        <td style='width: 5%' align=right><b>%</b></td>
-                        <td style='width: 12%' align=right><b>Valor</b></td>
-                        <td style='width: 5%' align=right><b>%</b></td>
-                        <td style='width: 12%' align=right><b>Valor</b></td>
-                        <td style='width: 5%' align=right><b>%</b></td>
-                        <td style='width: 12%' align=right><b>Valor</b></td>
-                        <td style='width: 5%' align=right><b>%</b></td>
-                    </tr>
-                    <!-- FIM Custos Diretos Título -->
+                                        <option value="<?php echo htmlspecialchars( $value1["idUnidade"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["UnDescricao"], ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
+                                        <?php } ?>
 
-                    <!-- Grupo de Lançamento -->
-                    <tr>
-                        <td colspan=9><b>Pessoal</b></td>
-                    </tr>
-                    <!-- FIM Grupo de Lançamento -->
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Grupo :
+                                    <select name="id_GrupoCC" class="form-control">
+                                        <option value="null"> Selecione o Grupo: </option>
+                                        <?php $counter1=-1;  if( isset($grupo) && ( is_array($grupo) || $grupo instanceof Traversable ) && sizeof($grupo) ) foreach( $grupo as $key1 => $value1 ){ $counter1++; ?>
 
-                    <!-- Ítem de Lançamento por mês e % -->
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
+                                        <option value="<?php echo htmlspecialchars( $value1["idGrupoCC"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["DescGrupoCC"], ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
+                                        <?php } ?>
 
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-                    <!-- FIM Ítem de Lançamento por mês e % -->
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>SubGrupo :
+                                    <select name="id_SubGrupoCC" class="form-control">
+                                        <option value="null"> Selecione o Grupo: </option>
+                                        <?php $counter1=-1;  if( isset($subgrupo) && ( is_array($subgrupo) || $subgrupo instanceof Traversable ) && sizeof($subgrupo) ) foreach( $subgrupo as $key1 => $value1 ){ $counter1++; ?>
 
-                    <!-- Total do Grupo -->
-                    <tr>
-                        <td align=left><b>TOTAL: </b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                    </tr>
-                    <!-- FIM Total do Grupo -->
+                                        <option value="<?php echo htmlspecialchars( $value1["idSubGrupoCC"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["DescSubGrupoCC"], ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
+                                        <?php } ?>
 
-                    <!-- OUTROS TESTE DE LAYOUT PARA ANALISAR -->
-                    <!-- ==================================================== -->
-                    <!-- ==================================================== -->
-                    <!-- Grupo de Lançamento -->
-                    <tr>
-                        <td colspan=9><b>Material</b></td>
-                    </tr>
-                    <!-- FIM Grupo de Lançamento -->
-
-                    <!-- Ítem de Lançamento por mês e % -->
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-                    <tr>
-                        <td>Descrição do Item de Lançamento</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                        <td align=right>999.999.999,99</td>
-                        <td align=right> 99,99</td>
-                    </tr>
-                    <!-- FIM Ítem de Lançamento por mês e % -->
-
-                    <!-- Total do Grupo -->
-                    <tr>
-                        <td align=left><b>TOTAL: </b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right><b>99,99</b></td>
-                    </tr>
-                    <!-- FIM Total do Grupo -->
-                    <!-- FIM OUTROS TESTE DE LAYOUT PARA ANALISAR -->
-                    <!-- ==================================================== -->
-                    <!-- ==================================================== -->
-
-                    <!-- Total do Centro de Custo -->
-                    <tr>
-                        <td align=left><b>TOTAL CUSTOS DIRETOS: </b></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right></td>
-                        <td align=right><b>999.999.999,99</b></td>
-                        <td align=right></td>
-                    </tr>
-                    <!-- FIM Total do Centro de Custo -->
-
-                    <!-- Outros Lançamentos  -->
-                    <tr>
-                        <td><strong>OUTROS LANÇAMENTOS </strong></td>
-                    </tr>
-                    <!-- FIM Outros Lançamentos  -->
-
-                    <!-- Itens de Outros Lançamentos  -->
-                    <tr>
-                        <td align=left><b>Itens Outros Lançamento</b></td>
-                        <td align=right><b>999.999.999</b></td>
-                        <td align=right></td>
-                        <td align=right><b>999.999.999</b></td>
-                        <td align=right></td>
-                        <td align=right><b>999.999.999</b></td>
-                        <td align=right></td>
-                        <td align=right><b>999.999.999</b></td>
-                        <td align=right></td>
-                    </tr>
-                    <!-- FIM Itens de Outros Lançamentos  -->
-
-
-                </table>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="row col-md-12">
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-success">Exibir Relatório</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
     </section>
+    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
