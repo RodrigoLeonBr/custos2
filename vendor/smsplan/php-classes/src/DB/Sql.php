@@ -1,69 +1,56 @@
-<?php 
+<?php
 
 namespace SMSPlan\DB;
 
 class Sql {
 
-	const HOSTNAME = "localhost";
-	const USERNAME = "root";
-	const PASSWORD = "";
-	const DBNAME = "sisplan";
+    const HOSTNAME = "localhost";
+    const USERNAME = "root";
+    const PASSWORD = "";
+    const DBNAME = "sisplan";
 
-	private $conn;
+    private $conn;
 
-	public function __construct()
-	{
+    public function __construct() {
 
-		$this->conn = new \PDO(
-			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
-			Sql::USERNAME,
-			Sql::PASSWORD
-		);
+        $this->conn = new \PDO(
+                "mysql:dbname=" . Sql::DBNAME . ";host=" . Sql::HOSTNAME, Sql::USERNAME, Sql::PASSWORD
+        );
+    }
 
-	}
+    private function setParams($statement, $parameters = array()) {
 
-	private function setParams($statement, $parameters = array())
-	{
+        foreach ($parameters as $key => $value) {
 
-		foreach ($parameters as $key => $value) {
-			
-			$this->bindParam($statement, $key, $value);
+            $this->bindParam($statement, $key, $value);
+        }
+    }
 
-		}
+    private function bindParam($statement, $key, $value) {
 
-	}
+        $statement->bindParam($key, $value);
+    }
 
-	private function bindParam($statement, $key, $value)
-	{
+    public function query($rawQuery, $params = array()) {
 
-		$statement->bindParam($key, $value);
+        $stmt = $this->conn->prepare($rawQuery);
 
-	}
+        $this->setParams($stmt, $params);
 
-	public function query($rawQuery, $params = array())
-	{
+        $stmt->execute();
+    }
 
-		$stmt = $this->conn->prepare($rawQuery);
+    public function select($rawQuery, $params = array()): array {
 
-		$this->setParams($stmt, $params);
+        $stmt = $this->conn->prepare($rawQuery);
 
-		$stmt->execute();
+        $this->setParams($stmt, $params);
 
-	}
+        $stmt->execute();
 
-	public function select($rawQuery, $params = array()):array
-	{
-
-		$stmt = $this->conn->prepare($rawQuery);
-
-		$this->setParams($stmt, $params);
-
-		$stmt->execute();
-
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-	}
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 
 }
 
- ?>
+?>

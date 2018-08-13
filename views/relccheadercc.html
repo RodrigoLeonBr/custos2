@@ -1,0 +1,35 @@
+<!-- Título do Centro de Custo -->
+{if="$unidade != ''"}
+<tr>
+    <td colspan=9><strong>UNIDADE: {$unidade}</strong></td>
+</tr>
+{/if}
+{if="$grupo != ''"}
+<tr>
+    <td colspan=9><strong>GRUPO: {$grupo}</strong></td>
+</tr>
+{/if}
+{if="$subgrupo != ''"}
+<tr>
+    <td colspan=9><strong>SUBGRUPO: {$subgrupo}</strong></td>
+</tr>
+{/if}
+
+<tr>
+    <td colspan=9 style='border-bottom: 1px solid black;'><strong>CENTRO DE CUSTO: {$id_CentroCusto} - {$DescCentroCusto}</strong></td>
+</tr>
+<!-- FIM Título do Centro de Custo -->
+
+<!-- Título dos Meses -->
+<tr>
+    <td></td>
+    <td align=right><b>{$mes1}/{$ano}</b></td>
+    <td align=right>%</td>
+    <td align=right><b>{$mes2}/{$ano}</b></td>
+    <td align=right>%</td>
+    <td align=right><b>{$mes3}/{$ano}</b></td>
+    <td align=right>%</td>
+    <td align=right><b>{$mes4}/{$ano}</b></td>
+    <td align=right>%</td>
+</tr>
+<!-- FIM Título dos Meses -->

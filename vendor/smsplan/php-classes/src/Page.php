@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace SMSPlan;
 
@@ -6,58 +6,55 @@ use Rain\Tpl;
 
 class Page {
 
-	private $tpl;
-	private $options = [];
-	private $defaults = [
-		"header"=>true,
-		"footer"=>true,
-		"data"=>[]
-	];
+    private $tpl;
+    private $options = [];
+    private $defaults = [
+        "header" => true,
+        "footer" => true,
+        "footern" => "footer",
+        "data" => []
+    ];
 
-	public function __construct($opts = array(), $tpl_dir = "/custos2/views/"){
-		
-		$this->options = array_merge($this->defaults, $opts);
+    public function __construct($opts = array(), $tpl_dir = "/views/") {
 
-		$config = array(
-			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"].$tpl_dir,
-			"cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/custos2/views-cache/",
-			"debug"         => false
-	    );
+        $this->options = array_merge($this->defaults, $opts);
 
-		Tpl::configure( $config );
+        $config = array(
+            "tpl_dir" => $_SERVER["DOCUMENT_ROOT"] . $tpl_dir,
+            "cache_dir" => $_SERVER["DOCUMENT_ROOT"] . "/views-cache/",
+            "debug" => false
+        );
 
-		$this->tpl = new Tpl;
+        Tpl::configure($config);
 
-		$this->setData($this->options["data"]);
-        
-		if ($this->options["header"] === true) $this->tpl->draw("header");
+        $this->tpl = new Tpl;
 
-	}
+        $this->setData($this->options["data"]);
 
-	private function setData($data = array())
-	{
+        if ($this->options["header"] === true)
+            $this->tpl->draw("header");
+    }
 
-		foreach ($data as $key => $value) {
-			$this->tpl->assign($key, $value);
-		}
+    private function setData($data = array()) {
 
-	}
+        foreach ($data as $key => $value) {
+            $this->tpl->assign($key, $value);
+        }
+    }
 
-	public function setTpl($name, $data = array(), $returnHTML = false)
-	{
+    public function setTpl($name, $data = array(), $returnHTML = false) {
 
-		$this->setData($data);
+        $this->setData($data);
 
-		return $this->tpl->draw($name, $returnHTML);
+        return $this->tpl->draw($name, $returnHTML);
+    }
 
-	}
+    public function __destruct() {
 
-	public function __destruct(){
-
-		if ($this->options["footer"] === true) $this->tpl->draw("footer");
-
-	}
+        if ($this->options["footer"] === true)
+            $this->tpl->draw("footer");
+    }
 
 }
 
- ?>
+?>

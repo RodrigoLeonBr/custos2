@@ -1,0 +1,36 @@
+<!-- Grupo de Lançamento -->
+<tr>
+    <td colspan=9><b>{$totalgrupo.DescGrupoItemCC}</b></td>
+</tr>
+<!-- FIM Grupo de Lançamento -->
+
+<!-- Ítem de Lançamento por mês e % -->
+{loop="$grupo"}
+<tr>
+    <td>{$value.DescItemCC}</td>
+    <td align=right>{function="formatValor($value.Mes1)"}</td>
+    <td align=right>{function="formatPercent($value.Mes1, $totalcc.Mes1)"}</td>
+    <td align=right>{function="formatValor($value.Mes2)"}</td>
+    <td align=right>{function="formatPercent($value.Mes2, $totalcc.Mes2)"}</td>
+    <td align=right>{function="formatValor($value.Mes3)"}</td>
+    <td align=right>{function="formatPercent($value.Mes3, $totalcc.Mes3)"}</td>
+    <td align=right>{function="formatValor($value.Mes4)"}</td>
+    <td align=right>{function="formatPercent($value.Mes4, $totalcc.Mes4)"}</td>
+</tr>
+{/loop}
+
+<!-- FIM Ítem de Lançamento por mês e % -->
+
+<!-- Total do Grupo -->
+<tr>
+    <td align=left><b>TOTAL: </b></td>
+    <td align=right><b>{function="formatValor($totalgrupo.Mes1)"}</b></td>
+    <td align=right><b>{function="formatPercent($totalgrupo.Mes1, $totalcc.Mes1)"}</b></td>
+    <td align=right><b>{function="formatValor($totalgrupo.Mes2)"}</b></td>
+    <td align=right><b>{function="formatPercent($totalgrupo.Mes2, $totalcc.Mes2)"}</b></td>
+    <td align=right><b>{function="formatValor($totalgrupo.Mes3)"}</b></td>
+    <td align=right><b>{function="formatPercent($totalgrupo.Mes3, $totalcc.Mes3)"}</b></td>
+    <td align=right><b>{function="formatValor($totalgrupo.Mes4)"}</b></td>
+    <td align=right><b>{function="formatPercent($totalgrupo.Mes4, $totalcc.Mes4)"}</b></td>
+</tr>
+<!-- FIM Total do Grupo -->
