@@ -1,0 +1,133 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Editar Lançamento de Folha de Pagamento
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Principal</a></li>
+            <li>Tab Aux</li>
+            <li class="active"><a href="/folha">Folha Pag.</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Editar Lançamento de Folha de Pagamento</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" action="/folha/{$folha.idFolha}" method="post">
+                        {if="$error != ''"}
+                        <div class="alert alert-danger" role="alert">
+                            {$error}
+                        </div>
+                        {/if}
+                        <!-- Ano Mes Centro Custo -->
+                        <div class="box-body">
+                            <!-- Ano -->
+                            <div class="form-group col-md-3">
+                                <div class="form-group">
+                                    <label for="Ano">Ano</label>
+                                    <input type="text" class="form-control" id="Ano" name="Ano" placeholder="Ano" value="{$folha.Ano}">
+                                </div>
+                            </div>
+                            <!-- Mes -->
+                            <div class="form-group col-md-3">
+                                <div class="form-group">
+                                    <label for="Mes">Mês</label>
+                                    <input type="text" class="form-control" id="Mes" name="Mes" placeholder="Mes" value="{$folha.Mes}">
+                                </div>
+                            </div>
+                            <!-- Centro Custo -->
+                            <div class="form-group col-md-6">
+                                <label>C Custo:
+                                    <select name="id_CentroCusto" class="form-control">
+                                        <option value="null"> Selecione o Centro de Custo: </option>
+                                        {loop="$ccusto"}
+                                        {if="$folha.id_CentroCusto == $value.idCentroCusto"}
+                                        <option value="{$value.idCentroCusto}" selected="selected">
+                                            {else}
+                                        <option value="{$value.idCentroCusto}">
+                                            {/if}
+                                            {$value.DescCentroCusto}</option>
+                                        {/loop}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- CENTRO DE CUSTO ORIGINAL -->
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="CentroCusto">Nome do Centro de Custo ORIGINAL</label>
+                                <input type="text" class="form-control" id="CentroCusto" name="CentroCusto" placeholder="Digite o nome do centro de custo ORIGINAL" value="{$folha.CentroCusto}">
+                            </div>
+                        </div>
+                        <!-- EVENTO ORIGINAL -->
+                        <div class="box-body">
+                            <!-- Evento -->
+                            <div class="form-group col-md-4">
+                                <label for="Evento">N. Evento</label>
+                                <input type="text" class="form-control" id="Evento" name="Evento" placeholder="N Evento" value="{$folha.Evento}">
+                            </div>
+                            <!-- Descrição do Evento -->
+                            <div class="form-group col-md-8">
+                                <label for="Descricao">Descrição do Evento</label>
+                                <input type="text" class="form-control" id="Descricao" name="Descricao" placeholder="Descrição do Evento" value="{$folha.Descricao}">
+                            </div>
+                        </div>
+                        <!-- CCUSTO ORIGINAL, QTD Valor -->
+                        <div class="box-body">
+                            <!-- CCusto -->
+                            <div class="form-group col-md-4">
+                                <label for="Ccusto">C. Custo</label>
+                                <input type="text" class="form-control" id="Ccusto" name="Ccusto" placeholder="C Custo Orig" value="{$folha.Ccusto}">
+                            </div>
+                            <!-- Qtd -->
+                            <div class="form-group col-md-4">
+                                <label for="Qtd">Qtd</label>
+                                <input type="text" class="form-control" id="Qtd" name="Qtd" placeholder="Quant" value="{$folha.Qtd}">
+                            </div>
+                            <!-- Valor -->
+                            <div class="form-group col-md-4">
+                                <label for="Valor">Valor</label>
+                                <input type="text" class="form-control" id="Valor" name="Valor" placeholder="Valor" value="{$folha.Valor}">
+                            </div>
+                        </div>
+
+                        <!--ItemCC-->
+                        <div class="box-body">
+                            <label>Item de Centro de Custo:
+                                <select name="id_ItemCC" class="form-control">
+                                    <option value="null"> Selecione Ítem de C Custo: </option>
+                                    {loop="$itemcc"}
+                                    {if="$folha.id_ItemCC == $value.idItemCC"}
+                                    <option value="{$value.idItemCC}" selected="selected">
+                                        {else}
+                                    <option value="{$value.idItemCC}">
+                                        {/if}
+                                        {$value.DescItemCC}</option>
+                                    {/loop}
+                                </select>
+                            </label>
+                        </div>
+
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

@@ -118,7 +118,7 @@ $app->post("/forgot/reset", function() {
 $app->get('/relcc', function() {
 
     User::verifyLogin();
-    User::setSessao("custos,cadastros,ccustos");
+    User::setSessao("custos,relcc,");
 
     $page = new Page();
 
@@ -131,7 +131,8 @@ $app->get('/relcc', function() {
         "unidade" => $unidade,
         "grupo" => $grupo,
         "subgrupo" => $subgrupo,
-        "ccusto" => $ccusto
+        "ccusto" => $ccusto,
+        "error" => CCusto::getMsgError()
     ]);
 });
 
@@ -139,6 +140,18 @@ $app->post('/relcc', function() {
 
     User::verifyLogin(false);
     User::setSessao("custos,relcc,");
+
+    if ($_POST['ano'] < 2000) {
+        CCusto::setMsgError("Necessário Informar o Ano desejado");
+        header('Location: /relcc');
+        exit;
+    }
+
+    if ($_POST['mes'] <= 0) {
+        CCusto::setMsgError("Necessário Informar o Quadrimestre desejado");
+        header('Location: /relcc');
+        exit;
+    }
 
     $pageh = new Page([
         "header" => true,
@@ -203,6 +216,11 @@ $app->post('/relcc', function() {
         $gcc = "";
         $gscc = "";
 
+        $tMes1 = 0;
+        $tMes2 = 0;
+        $tMes3 = 0;
+        $tMes4 = 0;
+
         foreach ($centrosdecusto as $cc) {
 
 
@@ -225,6 +243,11 @@ $app->post('/relcc', function() {
 
             $grupoitem = RelCC::ListGrupoCC($ano, $mesi, $cc["id_CentroCusto"]);
 
+            $tMes1 += $cc['Mes1'];
+            $tMes2 += $cc['Mes2'];
+            $tMes3 += $cc['Mes3'];
+            $tMes4 += $cc['Mes4'];
+
             foreach ($grupoitem as $grupo) {
 
                 $detalhe = RelCC::ListGrupoDetCC($ano, $mesi, $cc["id_CentroCusto"], $grupo["id_GrupoItemCC"]);
@@ -242,7 +265,12 @@ $app->post('/relcc', function() {
             $pagec->setTpl("relccoutros");
         }
 
-        $pagef->setTpl("relccfooter");
+        $pagef->setTpl("relccfooter", [
+            "tMes1" => $tMes1,
+            "tMes2" => $tMes2,
+            "tMes3" => $tMes3,
+            "tMes4" => $tMes4
+        ]);
     }
 });
 ?>

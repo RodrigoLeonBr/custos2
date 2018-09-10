@@ -166,12 +166,21 @@
                                     </ul>
                                 </li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Lançamento de Custos</a></li>
-                                <li><a href="/relcc"><i class="fa fa-calculator"></i> Relatório por Centro de Custo</a></li>
+                                {if="getSubmenu() == 'relcc'"}
+                                <li class='active'>
+                                    {else}
+                                <li>
+                                    {/if}
+                                    <a href="/relcc"><i class="fa fa-calculator"></i> Relatório por Centro de Custo</a></li>
                             </ul>
                         </li>
                         <!-- FIM do Menu de custos-->
                         <!-- Menu Tabelas Auxiliares-->
+                        {if="getMenu() == 'auxiliar'"}
+                        <li class="treeview active">
+                            {else}
                         <li class="treeview">
+                            {/if}
                             <a href="#">
                                 <i class="fa fa-list-alt"></i> <span>Tabelas Auxiliares</span>
                                 <span class="pull-right-container">
@@ -179,7 +188,12 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Folha de Pagamento</a></li>
+                                {if="getSubmenu() == 'folha'"}
+                                <li class='active'>
+                                    {else}
+                                <li>
+                                    {/if}
+                                    <a href="/folha"><i class="fa fa-circle-o"></i> Folha de Pagamento</a></li>
                                 <li><a href="#"><i class="fa fa-upload"></i> Importar Folha de Pagamento</a></li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Consumo Almoxarifado</a></li>
                                 <li><a href="#"><i class="fa fa-upload"></i> Importar Consumo Almoxarifado</a></li>
@@ -189,7 +203,12 @@
                         </li>
                         <!-- FIM da Tabelas Auxiliares-->
                         <!-- Menu de Contratos-->
+
+                        {if="getMenu() == 'contratos'"}
+                        <li class="treeview active">
+                            {else}
                         <li class="treeview">
+                            {/if}
                             <a href="#">
                                 <i class="fa fa-bank"></i> <span>Contratos</span>
                                 <span class="pull-right-container">
@@ -197,8 +216,18 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Contratos</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o-notch"></i> Lançamento de Contratos</a></li>
+                                {if="getSubmenu() == 'contratos'"}
+                                <li class='active'>
+                                    {else}
+                                <li>
+                                    {/if}
+                                    <a href="/contratos"><i class="fa fa-circle-o"></i> Contratos</a></li>
+                                {if="getSubmenu() == 'lanccontratos'"}
+                                <li class='active'>
+                                    {else}
+                                <li>
+                                    {/if}
+                                    <a href="/lanccontratos"><i class="fa fa-circle-o-notch"></i> Lançamento de Contratos</a></li>
                             </ul>
                         </li>
                         <!-- FIM do Menu de Contratos-->

@@ -3,7 +3,7 @@
 use SMSPlan\Page;
 use SMSPlan\Model\User;
 use SMSPlan\Model\Grupo;
-use SMSPlan\Model\Ccusto;
+use SMSPlan\Model\CCusto;
 
 $app->get("/grupos", function() {
 
@@ -165,7 +165,7 @@ $app->get("/grupos/:idGrupoCC/ccustos/:idCentroCusto/add", function($idGrupoCC, 
 
     $grupo->get((int) $idGrupoCC);
 
-    $ccusto = new Ccusto();
+    $ccusto = new CCusto();
 
     $ccusto->get((int) $idCentroCusto);
 
@@ -183,7 +183,7 @@ $app->get("/grupos/:idGrupoCC/ccustos/:idCentroCusto/remove", function($idGrupoC
 
     $grupo->get((int) $idGrupoCC);
 
-    $ccusto = new Ccusto();
+    $ccusto = new CCusto();
 
     $ccusto->get((int) $idCentroCusto);
 

@@ -18,4 +18,6 @@ require_once("cadastro-subgrupos.php");
 require_once("cadastro-cc.php");
 require_once("cadastro-grupositem.php");
 require_once("cadastro-itemcc.php");
+require_once("cadastro-contrato.php");
+require_once("cadastro-folha.php");
 $app->run();

@@ -1,0 +1,63 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Lista de Contratos
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Principal</a></li>
+            <li>Contratos</li>
+            <li class="active"><a href="/contratos">Contratos</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <a href="/contratos/create" class="btn btn-success">Cadastrar Contrato</a>
+        {if="$error != ''"}
+        <div class="alert alert-danger" role="alert">
+            {$error}
+        </div>
+        {/if}
+
+        <div class="box-tools">
+            <form action="/contratos">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="search" class="form-control pull-right" placeholder="Procurar" value="{$search}">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {loop="$contrato"}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-solid ">
+                    <div class="box-body
+                         {if="$value.DifVenc <0"} bg-red {/if}
+                          {if="$value.DifVenc >=0 && $value.DifVenc <60"} bg-danger {/if}
+                          {if="$value.DifVenc >=60 && $value.DifVenc <=90"} bg-warning {/if}
+                          ">
+                          <h3>{$value.Contrato_Protocolo}- {$value.Contrato_Prestador}({$value.lanc} lançamento(s))</h3>
+                             <h4><strong>CNES: </strong>{$value.Contrato_Cnes}&nbsp; <strong> &ensp; Dt. Ass.: </strong>{$value.Contrato_Data} <strong> &ensp; Dt. Venc: </strong>{$value.Contrato_Vencimento}<strong> &ensp; Dias Faltantes: </strong>{$value.DifVenc}</h4>
+                             <h4><strong>Valor :</strong> {function="formatValor($value.Contrato_Valor)"}&nbsp; <strong>Valor Saldo:</strong> {function="formatValor($value.Contrato_Saldovalor)"} <strong>&ensp; Qtd Saldo:</strong> {function="formatValor($value.Contrato_Saldoqtd)"}</h4>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            {/loop}
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    {loop="$pages"}
+                    <li><a href="{$value.href}">{$value.text}</a></li>
+                    {/loop}
+                </ul>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->

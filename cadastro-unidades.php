@@ -3,7 +3,7 @@
 use SMSPlan\Page;
 use SMSPlan\Model\User;
 use SMSPlan\Model\Unidade;
-use SMSPlan\Model\Ccusto;
+use SMSPlan\Model\CCusto;
 
 $app->get("/unidades", function() {
 
@@ -171,7 +171,7 @@ $app->get("/unidades/:idUnidade/ccustos/:idCentroCusto/add", function($idUnidade
 
     $unidade->get((int) $idUnidade);
 
-    $ccusto = new Ccusto();
+    $ccusto = new CCusto();
 
     $ccusto->get((int) $idCentroCusto);
 
@@ -189,7 +189,7 @@ $app->get("/unidades/:idUnidade/ccustos/:idCentroCusto/remove", function($idUnid
 
     $unidade->get((int) $idUnidade);
 
-    $ccusto = new Ccusto();
+    $ccusto = new CCusto();
 
     $ccusto->get((int) $idCentroCusto);
 

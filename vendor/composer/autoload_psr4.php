@@ -7,4 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'SMSPlan\\' => array($vendorDir . '/smsplan/php-classes/src'),
+    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
+    'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
+    'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
 );
