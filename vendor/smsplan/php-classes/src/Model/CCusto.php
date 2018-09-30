@@ -19,6 +19,61 @@ class CCusto extends Model {
                     ");
     }
 
+    public static function retornaComp($comp = 1) {
+
+        $sql = new Sql();
+
+        if ($comp === 1) {
+            return $sql->select("SELECT MIN(Ano) Ano, MIN(Mes) AS Mes
+                                FROM c_movcusto
+                                WHERE ano = (SELECT MIN(Ano) FROM c_movcusto)");
+        } else {
+            return $sql->select("SELECT MAX(Ano) Ano, MAX(Mes) AS Mes
+                                FROM c_movcusto
+                                WHERE ano = (SELECT MAX(Ano) FROM c_movcusto)");
+        }
+    }
+
+    public static function retornaCusto($ano = 2017, $mes = 1) {
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT SUM(Valor) AS Total FROM c_movcusto WHERE Ano=:Ano AND Mes=:Mes", array(
+                    ":Ano" => $ano,
+                    ":Mes" => $mes
+        ));
+    }
+
+    public static function retornaSetores($ano = 2017, $mes = 1) {
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT COUNT(DISTINCT id_CentroCusto) AS Total FROM c_movcusto WHERE Ano=:Ano AND Mes=:Mes", array(
+                    ":Ano" => $ano,
+                    ":Mes" => $mes
+        ));
+    }
+
+    public static function retornaFuncionarios($ano = 2017, $mes = 1) {
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT SUM(Valor) AS Total FROM c_lancestrutura WHERE Ano=:Ano AND Mes=:Mes AND id_estrutura=5", array(
+                    ":Ano" => $ano,
+                    ":Mes" => $mes
+        ));
+    }
+
+    public static function retornaItens($ano = 2017, $mes = 1) {
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT SUM(QtdConsumo) AS Total FROM c_consumo WHERE Ano=:Ano AND Mes=:Mes", array(
+                    ":Ano" => $ano,
+                    ":Mes" => $mes
+        ));
+    }
+
     public function buscaDescricao($DescCentroCusto) {
 
         $sql = new Sql();

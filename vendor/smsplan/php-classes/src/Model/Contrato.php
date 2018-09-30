@@ -234,13 +234,14 @@ class Contrato extends Model {
     public function checkData() {
         $source = array('.', ',');
         $replace = array('', '.');
+
         $valor = str_replace($source, $replace, $this->getContrato_Valor());
         $this->setContrato_Valor(floatval($valor));
         $valor = str_replace($source, $replace, $this->getContrato_Qtd());
         $this->setContrato_Qtd(floatval($valor));
 
-        $this->setContrato_Data(strtotime(Check::Data($this->getContrato_Data())));
-        $this->setContrato_Vencimento(strtotime(Check::Data($this->getContrato_Vencimento())));
+        $this->setContrato_Data(Check::Data($this->getContrato_Data()));
+        $this->setContrato_Vencimento(Check::Data($this->getContrato_Vencimento()));
 
         $this->setContrato_Saldovalor($this->getContrato_Valor());
         $this->setContrato_Saldoqtd($this->getContrato_Qtd());
@@ -249,5 +250,4 @@ class Contrato extends Model {
     }
 
 }
-
-?>
+?>;

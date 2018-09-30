@@ -1,10 +1,15 @@
 <?php
 
+require 'vendor/autoload.php';
+
 use SMSPlan\Page;
 use SMSPlan\Model\User;
 use SMSPlan\Model\CCusto;
 use SMSPlan\Model\ItemCC;
 use SMSPlan\Model\Folha;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $app->get("/folha", function() {
 
@@ -133,4 +138,14 @@ $app->post("/folha/:idFolha", function($idFolha) {
     header("Location: /folha");
     exit;
 });
+
+$app->get("/importafolha", function() {
+
+    $inputFileName = 'custos_01_2017.xlsx';
+//    //$helper->log('Loading file ' . pathinfo($inputFileName, PATHINFO_BASENAME) . ' using IOFactory to identify the format');
+    $spreadsheet = IOFactory::load($inputFileName);
+    $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+    var_dump($sheetData);
+});
+
 

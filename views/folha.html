@@ -59,20 +59,20 @@
                     <div class="box-body no-padding">
                         <table class="table table-hover">
                             <tr>
-                                <th style="width: 10px">CC</th>
+                                <th>Ano-CC</th>
                                 <th>Centro de Custo</th>
                                 <th>Evento</th>
                                 <th>Descrção</th>
                                 <th>Qtd</th>
                                 <th>Valor</th>
                                 <th>Item</th>
-                                <th style="width: 120px">&nbsp;</th>
+                                <th style="width: 70px">&nbsp;</th>
                             </tr>
 
 
                             {loop="$folha"}
                             <tr>
-                                <td>{$value.id_CentroCusto}</td>
+                                <td>{$value.Ano}/{$value.Mes}-{$value.id_CentroCusto}</td>
                                 <td>{$value.CentroCusto}</td>
                                 <td>{$value.Evento}</td>
                                 <td>{$value.Descricao}</td>

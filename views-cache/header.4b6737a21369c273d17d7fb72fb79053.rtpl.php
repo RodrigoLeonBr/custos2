@@ -194,7 +194,7 @@
                                 <li>
                                     <?php } ?>
                                     <a href="/folha"><i class="fa fa-circle-o"></i> Folha de Pagamento</a></li>
-                                <li><a href="#"><i class="fa fa-upload"></i> Importar Folha de Pagamento</a></li>
+                                <li><a href="/importafolha"><i class="fa fa-upload"></i> Importar Folha de Pagamento</a></li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Consumo Almoxarifado</a></li>
                                 <li><a href="#"><i class="fa fa-upload"></i> Importar Consumo Almoxarifado</a></li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Outras Despesas</a></li>

@@ -17,7 +17,23 @@ $app->get('/', function() {
 
     $page = new Page();
 
-    $page->setTpl("index");
+    $Compi = CCusto::retornaComp(1);
+    $Compf = CCusto::retornaComp(0);
+    $ValCusto = CCusto::retornaCusto($Compf[0]["Ano"], $Compf[0]["Mes"]);
+    $Setores = CCusto::retornaSetores($Compf[0]["Ano"], $Compf[0]["Mes"]);
+    $Funcionarios = CCusto::retornaFuncionarios($Compf[0]["Ano"], $Compf[0]["Mes"]);
+    $Itens = CCusto::retornaItens($Compf[0]["Ano"], $Compf[0]["Mes"]);
+
+    $page->setTpl("index", array(
+        "Anoi" => $Compi[0]["Ano"],
+        "Mesi" => $Compi[0]["Mes"],
+        "Anof" => $Compf[0]["Ano"],
+        "Mesf" => $Compf[0]["Mes"],
+        "ValCusto" => $ValCusto[0]["Total"],
+        "Setores" => $Setores[0]["Total"],
+        "Funcionarios" => $Funcionarios[0]["Total"],
+        "Itens" => $Itens[0]["Total"]
+    ));
 });
 
 $app->get('/login', function() {

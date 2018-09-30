@@ -59,20 +59,20 @@
                     <div class="box-body no-padding">
                         <table class="table table-hover">
                             <tr>
-                                <th style="width: 10px">CC</th>
+                                <th>Ano-CC</th>
                                 <th>Centro de Custo</th>
                                 <th>Evento</th>
                                 <th>Descrção</th>
                                 <th>Qtd</th>
                                 <th>Valor</th>
                                 <th>Item</th>
-                                <th style="width: 120px">&nbsp;</th>
+                                <th style="width: 70px">&nbsp;</th>
                             </tr>
 
 
                             <?php $counter1=-1;  if( isset($folha) && ( is_array($folha) || $folha instanceof Traversable ) && sizeof($folha) ) foreach( $folha as $key1 => $value1 ){ $counter1++; ?>
                             <tr>
-                                <td><?php echo htmlspecialchars( $value1["id_CentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                                <td><?php echo htmlspecialchars( $value1["Ano"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php echo htmlspecialchars( $value1["Mes"], ENT_COMPAT, 'UTF-8', FALSE ); ?>-<?php echo htmlspecialchars( $value1["id_CentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                                 <td><?php echo htmlspecialchars( $value1["CentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                                 <td><?php echo htmlspecialchars( $value1["Evento"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                                 <td><?php echo htmlspecialchars( $value1["Descricao"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>

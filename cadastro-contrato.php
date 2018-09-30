@@ -77,6 +77,7 @@ $app->post("/contratos/create", function() {
         exit;
     } else {
         $contrato->setData($_POST);
+        $contrato->setContrato_Status(1);
 
         $contrato->save();
 
@@ -110,13 +111,13 @@ $app->get("/contratos/:idContrato", function($idContrato) {
     User::verifyLogin();
     User::setSessao("contratos,contratos,");
 
-    $contrato = new CCusto();
+    $contrato = new Contrato();
 
     $contrato->get((int) $idContrato);
 
     $page = new Page();
 
-    $page->setTpl("ccustos-update", [
+    $page->setTpl("contratos-update", [
         "contrato" => $contrato->getValues(),
         "error" => Contrato::getMsgError()
     ]);

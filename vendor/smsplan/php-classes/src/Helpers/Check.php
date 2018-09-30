@@ -53,14 +53,9 @@ class Check {
      * @return STRING = $Data = Data no formato timestamp!
      */
     public static function Data($Data) {
-        self::$Format = explode(' ', $Data);
-        self::$Data = explode('/', self::$Format[0]);
+        self::$Data = explode('/', $Data);
 
-        if (empty(self::$Format[1])):
-            self::$Format[1] = date('H:i:s');
-        endif;
-
-        self::$Data = self::$Data[2] . '-' . self::$Data[1] . '-' . self::$Data[0] . ' ' . self::$Format[1];
+        self::$Data = self::$Data[2] . '-' . self::$Data[1] . '-' . self::$Data[0];
         return self::$Data;
     }
 

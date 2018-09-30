@@ -1,9 +1,11 @@
 <?php
 
+namespace SMSPlan\Helpers;
+
 /**
  * Upload.class [ HELPER ]
  * Reponsável por executar upload de imagens, arquivos e mídias no sistema!
- * 
+ *
  * @copyright (c) 2018, Rodrigo A Diaz Leon PLANEJAMENTO SECRETARIA DE SAÚE DE AMERICANA
  */
 class Upload {
@@ -54,14 +56,13 @@ class Upload {
         $this->UploadImage();
     }
 
-    
     /**
      * <b>Enviar Excel:</b> Basta envelopar um $_FILES de um arquivo excel.
      * @param FILES $Image = Enviar envelope de $_FILES (XLS, XLSX, CVC)
      * @param STRING $Name = Nome da planilha
      * @param STRING $Folder = Pasta personalizada
      */
-    public function Excel(array $Excel, $Name = null, $Folder = null, $MaxFileSize = null) {    
+    public function Excel(array $Excel, $Name = null, $Folder = null, $MaxFileSize = null) {
         $this->File = $Excel;
         $this->Name = ( (string) $Name ? $Name : substr($File['name'], 0, strrpos($File['name'], '.')) );
         $this->Folder = ( (string) $Folder ? $Folder : 'excel' );
@@ -103,7 +104,7 @@ class Upload {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/pdf',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/vnd.ms-excel'            
+            'application/vnd.ms-excel'
         ];
 
         if ($this->File['size'] > ($MaxFileSize * (1024 * 1024))):
@@ -135,14 +136,14 @@ class Upload {
 
         $FileAccept = [
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/msword',            
+            'application/msword',
             'application/pdf',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'application/vnd.ms-excel',
             'application/x-photoshop',
             'image/gif',
             'image/png',
-            'image/jpeg', 
+            'image/jpeg',
             'image/bmp',
             'image/webp',
             'application/x-rar-compressed',
