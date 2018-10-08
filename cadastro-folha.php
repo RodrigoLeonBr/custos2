@@ -39,6 +39,35 @@ $app->get("/folha", function() {
     ]);
 });
 
+$app->get("/depara/folha", function() {
+
+    User::verifyLogin();
+    User::setSessao("auxiliar,folha,depara");
+
+    $search = (isset($_GET['search'])) ? $_GET['search'] : "";
+    $page = (isset($_GET['page'])) ? (int) $_GET['page'] : 1;
+    $Ano = (isset($_GET['Ano'])) ? (int) $_GET['Ano'] : 0;
+    $Mes = (isset($_GET['Mes'])) ? (int) $_GET['Mes'] : 0;
+    $Cc = (isset($_GET['CC'])) ? (int) $_GET['CC'] : 0;
+
+    $pagination = Folha::getPage($page, 50, $search, $Ano, $Mes, $Cc);
+
+    $getPage = $page;
+
+    $page = new Page();
+
+    $page->setTpl("folha", [
+        "folha" => $pagination['data'],
+        "search" => $search,
+        "Ano" => $Ano,
+        "Mes" => $Mes,
+        "Cc" => $Cc,
+        "pages" => $pagination['pages'],
+        "error" => Folha::getMsgError()
+    ]);
+});
+
+
 $app->get("/folha/create", function() {
 
     User::verifyLogin();
@@ -141,11 +170,50 @@ $app->post("/folha/:idFolha", function($idFolha) {
 
 $app->get("/importafolha", function() {
 
-    $inputFileName = 'custos_01_2017.xlsx';
-//    //$helper->log('Loading file ' . pathinfo($inputFileName, PATHINFO_BASENAME) . ' using IOFactory to identify the format');
+
+    User::verifyLogin();
+    User::setSessao("auxiliar,folha,importafolha");
+
+    $page = new Page();
+
+    $page->setTpl("importafolha", [
+        "error" => Folha::getMsgError()
+    ]);
+});
+
+$app->post("/importafolha", function() {
+
+    $folha = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+    $folha['importa_arquivo'] = $_FILES['importa_arquivo'];
+
+//Verifica se Algum arquivo foi selecionado
+    if ($folha['importa_arquivo']["error"]) {
+        Folha::setMsgError("Nenhum Arquivo selecionado!");
+        header("Location: /importafolha");
+        exit;
+    }
+//Verifica se o nome do arquivo foi selecionado
+    if ($folha['importa_tabela'] == "") {
+        Folha::setMsgError("Nome do Arquivo deve ser preenchido!");
+        header("Location: /importafolha");
+        exit;
+    }
+
+    $cadastra = new Folha;
+    $res = $cadastra->importaExcel($folha);
+
+    if ($res === FALSE) {
+        header("Location: /importafolha");
+        exit;
+    }
+
+    $inputFileName = $res;
+
     $spreadsheet = IOFactory::load($inputFileName);
     $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-    var_dump($sheetData);
+
+    header("Location: /importafolha");
+    exit;
 });
 
 
