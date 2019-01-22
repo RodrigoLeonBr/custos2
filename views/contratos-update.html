@@ -23,33 +23,77 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form" action="/grupositem/{$grupoitem.idGrupoItemCC}" method="post">
+                    <form role="form" action="/contratos/{$contrato.idContrato}" method="post">
                         {if="$error != ''"}
                         <div class="alert alert-danger" role="alert">
                             {$error}
                         </div>
                         {/if}
-                        <!-- Descrição -->
+                        <!-- Protocolo -->
                         <div class="box-body">
+                            <div class="form-group col-md-4">
+                                <label>Protocolo:</label>
+                                <input type="text" class="form-control" name="Contrato_Protocolo" value="{$contrato.Contrato_Protocolo}">
+                            </div>
+                            <!-- CNES -->
+                            <div class="form-group col-md-4">
+                                <label>CNES:</label>
+                                <input type="text" class="form-control" name="Contrato_Cnes" value="{$contrato.Contrato_Cnes}">
+                            </div>
+                            <!-- CNPJ -->
+                            <div class="form-group col-md-4">
+                                <label>CNPJ:</label>
+                                <input type="text" class="form-control" name="Contrato_Cnpj" value="{$contrato.Contrato_Cnpj}">
+                            </div>
+
+                            <!-- Prestador -->
                             <div class="form-group">
-                                <label for="DescGrupoItemCC">Nome do Grupo</label>
-                                <input type="text" class="form-control" id="DescGrupoItemCC" name="DescGrupoItemCC" placeholder="Digite o nome do grupo" value="{$grupoitem.DescGrupoItemCC}">
+                                <label>Prestador:</label>
+                                <input type="text" class="form-control" name="Contrato_Prestador"  value="{$contrato.Contrato_Prestador}">
+                            </div>
+
+
+                            <!-- Observação -->
+                            <div class="form-group">
+                                <label>Observação:</label>
+                                <input type="text" class="form-control" name="Contrato_Obs" value="{$contrato.Contrato_Obs}">
+                            </div>
+
+                            <!-- Histórico -->
+                            <div class="form-group">
+                                <label>Histórico:</label>
+                                <textarea name="Contrato_Historico" class="form-control" rows="5">{$contrato.Contrato_Historico}</textarea>
+                            </div>
+
+                            <!-- Objeto do Convênio -->
+                            <div class="form-group">
+                                <label>Objeto do Contrato/Covênio:</label>
+                                <textarea name="Contrato_Objeto" class="form-control" rows="5">{$contrato.Contrato_Objeto}</textarea>
+                            </div>
+
+                            <!-- Data do Contrato -->
+                            <div class="form-group col-md-5">
+                                <label>Data Contrato:</label>
+                                <input type="text" class="form-control" name="Contrato_Data" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask value="{$contrato.Contrato_Data}">
+                            </div>
+
+                            <!-- Data de Vencimento -->
+                            <div class="form-group col-md-5">
+                                <label>Data Vencimento:</label>
+                                <input type="text" class="form-control formData" name="Contrato_Vencimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask value="{$contrato.Contrato_Vencimento}">
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label>Valor:</label>
+                                <input type="text" class="form-control left" name="Contrato_Valor" value="{$contrato.Contrato_Valor}">
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label>Quantidade:</label>
+                                <input type="text" class="form-control left" name="Contrato_Qtd" value="{$contrato.Contrato_Qtd}">
                             </div>
                         </div>
-                        <!-- Conteúdo -->
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="GrupoItemConteudo">Descrição do Conteúdo</label>
-                                <textarea class="form-control" id="GrupoItemConteudo" name="GrupoItemConteudo" rows="5"  placeholder="Digite a descrição do grupo">{$grupoitem.GrupoItemConteudo}</textarea>
-                            </div>
-                        </div>
-                        <!-- Ordem -->
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="Ordem">Ordem de Exibição do Grupo</label>
-                                <input type="text" class="form-control" id="Ordem" name="Ordem" placeholder="Digite a ordem de exibição" value="{$grupoitem.Ordem}">
-                            </div>
-                        </div>
+
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Salvar</button>

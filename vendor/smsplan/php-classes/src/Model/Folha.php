@@ -5,7 +5,10 @@ namespace SMSPlan\Model;
 use SMSPlan\DB\Sql;
 use SMSPlan\Model;
 use SMSPlan\Helpers\Pager;
-use SMSPlan\Helpers\SimpleXLSX;
+use SMSPlan\Helpers\Upload;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Folha extends Model {
 
@@ -195,126 +198,205 @@ class Folha extends Model {
         $_SESSION[Folha::SESSION_ERROR] = NULL;
     }
 
+    public function importaExcel($arquivo = NULL) {
+
+        $upload = new Upload();
+        $upload->Excel($arquivo['importa_arquivo'], $arquivo['importa_tabela']);
+
+        if ($upload->getResult() === FALSE) {
+            $this->setMsgError("Erro ao Importar arquivo!");
+            return FALSE;
+        }
+
+        $result = $this->gravaImportaExcel('uploads/' . $upload->getResult(), $arquivo['importa_tabela'], $arquivo['importa_ano'], $arquivo['importa_mes']);
+
+        if (count($result) == 0) {
+            $this->setMsgError("Erro ao gravar arquivo no Banco de Dados!");
+            return FALSE;
+        }
+
+        $this->importaplanilha($result[0]['importaid']);
+
+        return $upload->getResult();
+    }
+
+    private function gravaImportaExcel($local, $nomeArquivo, $ano, $mes) {
+        $sql = new Sql();
+
+        $results = $sql->select("
+                        CALL sp_importa_arquivos_create(:importa_tabela, :importa_arquivo, :importa_date,
+                        :importa_ano, :importa_mes)", [
+            ':importa_tabela' => 'folha',
+            ':importa_arquivo' => $local,
+            ':importa_date' => date("Y-m-d H:i:s"),
+            ':importa_ano' => $ano,
+            ':importa_mes' => $mes
+        ]);
+
+        return $results;
+    }
+
     public function importaplanilha($c_id = null) {
-        $read = new Read;
-        $read->FullRead('SELECT importa_arquivo FROM c_importa_arquivos where importaid=' . $c_id);
-        $impfolha = $read->getResult()[0];
+        ini_set('max_execution_time', 300);
+        $read = new Sql();
+        $result = $read->Select('SELECT * FROM c_importa_arquivos where importaid=' . $c_id);
+
         $linha = 0;
         $linhae = 0;
         $linhad = 0;
         $erro = 0;
-        $Create = new Create;
 
-        $centrocutos = new Read;
-        $itemcc = new Read;
+        $centrocutos = new Sql();
+        $Create = new Sql();
+        $itemcc = new Sql();
+        $grava = new Folha();
+        //$Create = new Create;
+        //$centrocutos = new Read;
+        //$itemcc = new Read;
 
-        $path = '../uploads/' . $impfolha['importa_arquivo'];
 
-        if ($xlsx = SimpleXLSX::parse($path)) {
-            echo "<div class='row'>";
-            echo "<div class='table-responsive'>";
-            echo "<table class='table table-striped table-bordered table-hover'>";
-            echo "<tbody>";
+        $spreadsheet = IOFactory::load($result[0]['importa_arquivo']);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-            foreach ($xlsx->rows() as $r) {
-                if ($linha > 0) {
-                    if ($this->BuscaDuplicado($r, $linha)) {
-                        $erro = 0;
-                        $centrocutos->FullRead("SELECT depara_valorDestino FROM c_tabdepara where depara_tabela='folha' AND depara_campotabela='Id_CentroCusto' and depara_valorOrigem=:id", "id={$r[0]}");
-                        $info1 = $centrocutos->getResult()[0];
-                        if (empty($info1['depara_valorDestino'])) {
-                            $erro = 1;
-                            echo "<tr>";
-                            echo "<td>";
-                            echo "Centro de Custo não encontrado na Linha:" . $linha;
-                            echo "</td>";
+        echo "<div class='row'>";
+        echo "<div class='table-responsive'>";
+        echo "<table class='table table-striped table-bordered table-hover'>";
+        echo "<tbody>";
 
-                            echo "<td>";
-                            echo "Centro Custo: " . $r[0];
-                            echo "</td>";
-                            echo "</tr>";
-                        }
-                        $itemcc->FullRead("SELECT depara_valorDestino, depara_valorDestino FROM c_tabdepara where depara_tabela='folha' AND depara_campotabela='id_ItemCC' and depara_valorOrigem=:id", "id={$r[2]}");
-                        $info2 = $itemcc->getResult()[0];
-                        if (empty($info2['depara_valorDestino'])) {
-                            $erro = 1;
-                            echo "<tr>";
-                            echo "<td>";
-                            echo "Evento não encontrado na Linha:" . $linha;
-                            echo "</td>";
+        foreach ($sheetData as $r) {
 
-                            echo "<td>";
-                            echo "Evento: " . $r[2];
-                            echo "</td>";
-                            echo "</tr>";
-                        }
-                        if ($erro == 1)
-                            $linhae++;
-                        if ($erro == 0) {
-                            $grava = new Create;
-                            $Dados = array(
-                                "Ano" => $r[6],
-                                "Mes" => $r[7],
-                                "Id_CentroCusto" => $info1['depara_valorDestino'],
-                                "CentroCusto" => $r[0],
-                                "Evento" => $r[1],
-                                "Descricao" => $r[2],
-                                "Ccusto" => $r[3],
-                                "Qtd" => $r[4],
-                                "Valor" => $r[5],
-                                "id_ItemCC" => $info2['depara_valorDestino']
-                            );
-                            $grava->ExeCreate('c_folha', $Dados);
-                        }
-                    } else {
-                        $linhad++;
+            if ($linha > 0) {
+
+                if ($r['G'] <> $result[0]['importa_ano']) {
+                    continue;
+                }
+                if ($r['H'] <> $result[0]['importa_mes']) {
+                    continue;
+                }
+
+
+                if ($this->BuscaDuplicado($r, $linha)) {
+                    $erro = 0;
+                    $info1 = $centrocutos->Select("SELECT depara_valorDestino FROM c_tabdepara where depara_tabela='folha' AND depara_campotabela='Id_CentroCusto' and depara_valorOrigem=:id", [
+                        ":id" => $r['A']
+                    ]);
+
+                    if (count($info1) == 0) {
+
+                        $erro = 1;
                         echo "<tr>";
                         echo "<td>";
-                        echo "Linha Duplicada:" . $linha;
+                        echo "Centro de Custo não encontrado na Linha:" . ($linha + 1);
                         echo "</td>";
+
                         echo "<td>";
-                        echo "Ano: " . $r[6];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "Mes: " . $r[7];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "CentroCusto: " . $r[0];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "Evento: " . $r[1];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "Descricao: " . $r[2];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "Ccusto: " . $r[3];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "Qtd: " . $r[4];
-                        echo "</td>";
-                        echo "<td>";
-                        echo "Valor: " . $r[5];
+                        echo "Centro Custo: " . $r['A'];
                         echo "</td>";
                         echo "</tr>";
                     }
+                    $info2 = $itemcc->select("SELECT depara_valorDestino, depara_valorDestino FROM c_tabdepara where depara_tabela='folha' AND depara_campotabela='id_ItemCC' and depara_valorOrigem=:id", [
+                        ":id" => $r['C']
+                    ]);
+
+                    if (count($info2) == 0) {
+                        $erro = 1;
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "Evento não encontrado na Linha:" . ($linha + 1);
+                        echo "</td>";
+
+                        echo "<td>";
+                        echo "Evento: " . $r['C'];
+                        echo "</td>";
+                        echo "</tr>";
+                    }
+                    if ($erro == 1)
+                        $linhae++;
+                    if ($erro == 0) {
+
+                        $Dados = array(
+                            "idFolha" => 0,
+                            "Ano" => $r['G'],
+                            "Mes" => $r['H'],
+                            "id_CentroCusto" => $info1[0]['depara_valorDestino'],
+                            "CentroCusto" => $r['A'],
+                            "Evento" => $r['B'],
+                            "Descricao" => $r['C'],
+                            "Ccusto" => $r['D'],
+                            "Qtd" => $r['E'],
+                            "Valor" => $r['F'],
+                            "id_ItemCC" => $info2[0]['depara_valorDestino']
+                        );
+                        $grava->setData($Dados);
+                        $grava->save();
+                    }
+                } else {
+                    $linhad++;
+                    echo "<tr>";
+                    echo "<td>";
+                    echo "Linha Duplicada:" . $linha;
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Ano: " . $r['G'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Mes: " . $r['H'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "CentroCusto: " . $r['A'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Evento: " . $r['B'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Descricao: " . $r['C'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Ccusto: " . $r['D'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Qtd: " . $r['E'];
+                    echo "</td>";
+                    echo "<td>";
+                    echo "Valor: " . $r['F'];
+                    echo "</td>";
+                    echo "</tr>";
                 }
-                $linha++;
             }
-            echo "</tbody>";
-            echo '</table>';
-            echo '</div>';
-            echo '</div>';
-            $this->Result = TRUE;
-        } else {
-            $this->Error = ["Erro ao Importar provavel caminho errado " . $path, WS_ALERT];
-            $this->Result = FALSE;
+            $linha++;
         }
+        echo "</tbody>";
+        echo '</table>';
+        echo '</div>';
+        echo '</div>';
+        $this->Result = TRUE;
+
         echo "<h2>Resumo de Importação</h2>";
         echo "Linhas Lidas: " . ($linha - 1) . "<br>";
         echo "Linhas com Erro: " . $linhae . "<br>";
         echo "Linhas Duplicadas: " . $linhad . "<br>";
         echo "Linhas Importadas: " . ($linha - 1 - $linhae - $linhad) . "<br>";
+    }
+
+    private function BuscaDuplicado($busca, $l) {
+        if (!empty($busca)):
+            $busca['A'] = addslashes($busca['A']);
+            $busca['C'] = addslashes($busca['C']);
+            $read = new Sql();
+            $Termos = "SELECT IdFolha FROM c_folha ";
+            $Termos .= " WHERE Ano = \"" . $busca['G'] . "\" and Mes=\"" . $busca['H'] . "\" ";
+            $Termos .= " and CentroCusto = \"" . $busca['A'] . "\" and Descricao = \"" . $busca['C'] . "\" ";
+            $result = $read->select($Termos);
+            if (count($result) > 0) {
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+        else :
+            $l = $l + 1;
+            $this->Error .= "<td><tr>Linha do Excel {$l} em Branco </td></tr>";
+            return FALSE;
+        endif;
     }
 
 }

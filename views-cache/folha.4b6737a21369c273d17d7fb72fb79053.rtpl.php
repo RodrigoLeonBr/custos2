@@ -40,7 +40,12 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="CC">Centro Custo</label>
-                                        <input type="text" class="form-control" id="CC" name="CC" placeholder="Centro de Custo" value="<?php echo htmlspecialchars( $Cc, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                                        <select name="CC" class="form-control">
+                                            <?php $counter1=-1;  if( isset($CentroCusto) && ( is_array($CentroCusto) || $CentroCusto instanceof Traversable ) && sizeof($CentroCusto) ) foreach( $CentroCusto as $key1 => $value1 ){ $counter1++; ?>
+                                            <option value="<?php echo htmlspecialchars( $value1["idCentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["DescCentroCusto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></option>
+                                            <?php } ?>
+                                        </select>
+
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="search">Texto</label>

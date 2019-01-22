@@ -93,67 +93,70 @@
                         </div>
                         <?php } ?>
 
-                        <!-- Protocolo -->
-                        <div class="form-group col-md-4">
-                            <label>Protocolo:</label>
-                            <input type="text" class="form-control" name="Contrato_Protocolo" />
-                        </div>
-                        <!-- CNES -->
-                        <div class="form-group col-md-4">
-                            <label>CNES:</label>
-                            <input type="text" class="form-control" name="Contrato_Cnes" />
-                        </div>
 
-                        <!-- CNPJ -->
-                        <div class="form-group col-md-4">
-                            <label>CNPJ:</label>
-                            <input type="text" class="form-control" name="Contrato_Cnpj"/>
-                        </div>
+                        <div class="box-body">
+                            <!-- Protocolo -->
+                            <div class="form-group col-md-4">
+                                <label>Protocolo:</label>
+                                <input type="text" class="form-control" name="Contrato_Protocolo" />
+                            </div>
+                            <!-- CNES -->
+                            <div class="form-group col-md-4">
+                                <label>CNES:</label>
+                                <input type="text" class="form-control" name="Contrato_Cnes" />
+                            </div>
 
-                        <!-- Prestador -->
-                        <div class="form-group">
-                            <label>Prestador:</label>
-                            <input type="text" class="form-control" name="Contrato_Prestador" />
-                        </div>
+                            <!-- CNPJ -->
+                            <div class="form-group col-md-4">
+                                <label>CNPJ:</label>
+                                <input type="text" class="form-control" name="Contrato_Cnpj"/>
+                            </div>
 
-                        <!-- Observação -->
-                        <div class="form-group">
-                            <label>Observação:</label>
-                            <input type="text" class="form-control" name="Contrato_Obs" />
-                        </div>
+                            <!-- Prestador -->
+                            <div class="form-group">
+                                <label>Prestador:</label>
+                                <input type="text" class="form-control" name="Contrato_Prestador" />
+                            </div>
 
-                        <!-- Histórico -->
-                        <div class="form-group">
-                            <label>Histórico:</label>
-                            <textarea name="Contrato_Historico" class="form-control" rows="5"></textarea>
-                        </div>
+                            <!-- Observação -->
+                            <div class="form-group">
+                                <label>Observação:</label>
+                                <input type="text" class="form-control" name="Contrato_Obs" />
+                            </div>
 
-                        <!-- Objeto do Convênio -->
-                        <div class="form-group">
-                            <label>Objeto do Contrato/Covênio:</label>
-                            <textarea name="Contrato_Objeto" class="form-control" rows="5"></textarea>
-                        </div>
+                            <!-- Histórico -->
+                            <div class="form-group">
+                                <label>Histórico:</label>
+                                <textarea name="Contrato_Historico" class="form-control" rows="5"></textarea>
+                            </div>
 
-                        <!-- Data do Contrato -->
-                        <div class="form-group col-md-5">
-                            <label>Data Contrato:</label>
-                            <input type="text" class="form-control" name="Contrato_Data" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-                        </div>
+                            <!-- Objeto do Convênio -->
+                            <div class="form-group">
+                                <label>Objeto do Contrato/Covênio:</label>
+                                <textarea name="Contrato_Objeto" class="form-control" rows="5"></textarea>
+                            </div>
 
-                        <!-- Data de Vencimento -->
-                        <div class="form-group col-md-5">
-                            <label>Data Vencimento:</label>
-                            <input type="text" class="form-control formData" name="Contrato_Vencimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-                        </div>
+                            <!-- Data do Contrato -->
+                            <div class="form-group col-md-5">
+                                <label>Data Contrato:</label>
+                                <input type="text" class="form-control" name="Contrato_Data" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                            </div>
 
-                        <div class="form-group col-md-5">
-                            <label>Valor:</label>
-                            <input type="text" class="form-control left" name="Contrato_Valor" />
-                        </div>
+                            <!-- Data de Vencimento -->
+                            <div class="form-group col-md-5">
+                                <label>Data Vencimento:</label>
+                                <input type="text" class="form-control formData" name="Contrato_Vencimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                            </div>
 
-                        <div class="form-group col-md-5">
-                            <label>Quantidade:</label>
-                            <input type="text" class="form-control left" name="Contrato_Qtd" />
+                            <div class="form-group col-md-5">
+                                <label>Valor:</label>
+                                <input type="text" class="form-control left" name="Contrato_Valor" />
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label>Quantidade:</label>
+                                <input type="text" class="form-control left" name="Contrato_Qtd" />
+                            </div>
                         </div>
 
                         <!-- /.box-body -->

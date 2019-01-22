@@ -8,13 +8,14 @@ class Sql {
     const USERNAME = "root";
     const PASSWORD = "";
     const DBNAME = "sisplan";
+    const options = [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'];
 
     private $conn;
 
     public function __construct() {
 
         $this->conn = new \PDO(
-                "mysql:dbname=" . Sql::DBNAME . ";host=" . Sql::HOSTNAME, Sql::USERNAME, Sql::PASSWORD
+                "mysql:dbname=" . Sql::DBNAME . ";host=" . Sql::HOSTNAME, Sql::USERNAME, Sql::PASSWORD, Sql::options
         );
     }
 
@@ -40,7 +41,7 @@ class Sql {
         $stmt->execute();
     }
 
-    public function select($rawQuery, $params = array()): array {
+    public function select($rawQuery, $params = array()) {
 
         $stmt = $this->conn->prepare($rawQuery);
 

@@ -289,4 +289,16 @@ $app->post('/relcc', function() {
         ]);
     }
 });
+
+$app->get('/relprod', function() {
+
+    User::verifyLogin();
+    User::setSessao("relatorios,relprod,");
+
+    $page = new Page();
+
+
+    $page->setTpl("relprod", [
+    ]);
+});
 ?>

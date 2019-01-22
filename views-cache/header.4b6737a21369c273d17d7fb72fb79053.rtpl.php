@@ -194,9 +194,20 @@
                                 <li>
                                     <?php } ?>
                                     <a href="/folha"><i class="fa fa-circle-o"></i> Folha de Pagamento</a></li>
-                                <li><a href="/importafolha"><i class="fa fa-upload"></i> Importar Folha de Pagamento</a></li>
+                                <?php if( getSubmenu() == 'importafolha' ){ ?>
+                                <li class='active'>
+                                    <?php }else{ ?>
+                                <li>
+                                    <?php } ?>
+                                    <a href="/importafolha"><i class="fa fa-upload"></i> Importar Folha de Pagamento</a></li>
+                                <?php if( getSubmenu() == 'deparafolha' ){ ?>
+                                <li class='active'>
+                                    <?php }else{ ?>
+                                <li>
+                                    <?php } ?>
+                                    <a href="/depara/folha"><i class="fa fa-balance-scale"></i> DePara Folha de Pag</a></li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Consumo Almoxarifado</a></li>
-                                <li><a href="#"><i class="fa fa-upload"></i> Importar Consumo Almoxarifado</a></li>
+                                <li><a href="#"><i class="fa fa-upload"></i> Importar Cons Almoxarifado</a></li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Outras Despesas</a></li>
                                 <li><a href="#"><i class="fa fa-upload"></i> Importar Outras Despesas</a></li>
                             </ul>
@@ -242,6 +253,7 @@
                             <ul class="treeview-menu">
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Rel por Centro de Custo</a></li>
                                 <li><a href="#"><i class="fa fa-circle-o"></i> Rel por Unidade</a></li>
+                                <li><a href="/relprod"><i class="fa fa-circle-o"></i> Rel Produção</a></li>
                             </ul>
                         </li>
                         <!-- FIM do Menu de Relatórios-->

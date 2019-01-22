@@ -31,7 +31,7 @@ class Upload {
      * <b>../uploads/</b>
      */
     function __construct($BaseDir = null) {
-        self::$BaseDir = ( (string) $BaseDir ? $BaseDir : '../uploads/');
+        self::$BaseDir = ( (string) $BaseDir ? $BaseDir : 'uploads/');
         if (!file_exists(self::$BaseDir) && !is_dir(self::$BaseDir)):
             mkdir(self::$BaseDir, 0777);
         endif;
@@ -78,7 +78,7 @@ class Upload {
             $this->Error = "Arquivo muito grande, tamanho máximo permitido de {$MaxFileSize}mb";
         elseif (!in_array($this->File['type'], $FileAccept)):
             $this->Result = false;
-            $this->Error = 'Tipo de arquivo não suportado. Envie .PDF ou .DOCX!';
+            $this->Error = 'Tipo de arquivo não suportado. Envie .XLS ou .XLSX!';
         else:
             $this->CheckFolder($this->Folder);
             $this->setFileName();
@@ -161,6 +161,7 @@ class Upload {
             $this->CheckFolder($this->Folder);
             $this->setFileName();
             $this->MoveFile();
+            $this->Result = $this->Folder . DIRECTORY_SEPARATOR . $this->Name;
         endif;
     }
 

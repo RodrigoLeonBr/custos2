@@ -139,3 +139,19 @@ $app->post("/contratos/:idContrato", function($idContrato) {
     exit;
 });
 
+$app->get("/lanccontratos", function($idContrato) {
+
+    User::verifyLogin();
+    User::setSessao("contratos,lanccontratos,");
+
+    $contrato = new Contrato();
+
+    $contrato->get((int) $idContrato);
+
+    $page = new Page();
+
+    $page->setTpl("contrato-lanc", [
+        "contrato" => $contrato->getValues(),
+        "error" => Contrato::getMsgError()
+    ]);
+});

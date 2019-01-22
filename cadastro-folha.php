@@ -34,6 +34,7 @@ $app->get("/folha", function() {
         "Ano" => $Ano,
         "Mes" => $Mes,
         "Cc" => $Cc,
+        "CentroCusto" => CCusto::listAll(),
         "pages" => $pagination['pages'],
         "error" => Folha::getMsgError()
     ]);
@@ -42,7 +43,7 @@ $app->get("/folha", function() {
 $app->get("/depara/folha", function() {
 
     User::verifyLogin();
-    User::setSessao("auxiliar,folha,depara");
+    User::setSessao("auxiliar,deparafolha,deparafolha");
 
     $search = (isset($_GET['search'])) ? $_GET['search'] : "";
     $page = (isset($_GET['page'])) ? (int) $_GET['page'] : 1;
@@ -56,7 +57,7 @@ $app->get("/depara/folha", function() {
 
     $page = new Page();
 
-    $page->setTpl("folha", [
+    $page->setTpl("deparafolha", [
         "folha" => $pagination['data'],
         "search" => $search,
         "Ano" => $Ano,
@@ -172,7 +173,7 @@ $app->get("/importafolha", function() {
 
 
     User::verifyLogin();
-    User::setSessao("auxiliar,folha,importafolha");
+    User::setSessao("auxiliar,importafolha,importafolha");
 
     $page = new Page();
 

@@ -3,12 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Lista de Grupos de Lançamento
+            Editar Contratos
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Principal</a></li>
-            <li>Cadastro</li>
-            <li class="active"><a href="/grupositem">GruposLanc</a></li>
+            <li><a href="/grupositem"></a>Contratos</li>
+            <li class="active">Editar Contratos</li>
         </ol>
     </section>
 
@@ -19,11 +19,11 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Editar Grupo</h3>
+                        <h3 class="box-title">Editar Contratos</h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form" action="/grupositem/<?php echo htmlspecialchars( $grupoitem["idGrupoItemCC"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post">
+                    <form role="form" action="/contratos/<?php echo htmlspecialchars( $contrato["idContrato"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post">
                         <?php if( $error != '' ){ ?>
 
                         <div class="alert alert-danger" role="alert">
@@ -32,27 +32,71 @@
                         </div>
                         <?php } ?>
 
-                        <!-- Descrição -->
+                        <!-- Protocolo -->
                         <div class="box-body">
+                            <div class="form-group col-md-4">
+                                <label>Protocolo:</label>
+                                <input type="text" class="form-control" name="Contrato_Protocolo" value="<?php echo htmlspecialchars( $contrato["Contrato_Protocolo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+                            <!-- CNES -->
+                            <div class="form-group col-md-4">
+                                <label>CNES:</label>
+                                <input type="text" class="form-control" name="Contrato_Cnes" value="<?php echo htmlspecialchars( $contrato["Contrato_Cnes"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+                            <!-- CNPJ -->
+                            <div class="form-group col-md-4">
+                                <label>CNPJ:</label>
+                                <input type="text" class="form-control" name="Contrato_Cnpj" value="<?php echo htmlspecialchars( $contrato["Contrato_Cnpj"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+
+                            <!-- Prestador -->
                             <div class="form-group">
-                                <label for="DescGrupoItemCC">Nome do Grupo</label>
-                                <input type="text" class="form-control" id="DescGrupoItemCC" name="DescGrupoItemCC" placeholder="Digite o nome do grupo" value="<?php echo htmlspecialchars( $grupoitem["DescGrupoItemCC"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                                <label>Prestador:</label>
+                                <input type="text" class="form-control" name="Contrato_Prestador"  value="<?php echo htmlspecialchars( $contrato["Contrato_Prestador"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+
+
+                            <!-- Observação -->
+                            <div class="form-group">
+                                <label>Observação:</label>
+                                <input type="text" class="form-control" name="Contrato_Obs" value="<?php echo htmlspecialchars( $contrato["Contrato_Obs"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+
+                            <!-- Histórico -->
+                            <div class="form-group">
+                                <label>Histórico:</label>
+                                <textarea name="Contrato_Historico" class="form-control" rows="5"><?php echo htmlspecialchars( $contrato["Contrato_Historico"], ENT_COMPAT, 'UTF-8', FALSE ); ?></textarea>
+                            </div>
+
+                            <!-- Objeto do Convênio -->
+                            <div class="form-group">
+                                <label>Objeto do Contrato/Covênio:</label>
+                                <textarea name="Contrato_Objeto" class="form-control" rows="5"><?php echo htmlspecialchars( $contrato["Contrato_Objeto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></textarea>
+                            </div>
+
+                            <!-- Data do Contrato -->
+                            <div class="form-group col-md-5">
+                                <label>Data Contrato:</label>
+                                <input type="text" class="form-control" name="Contrato_Data" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask value="<?php echo htmlspecialchars( $contrato["Contrato_Data"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+
+                            <!-- Data de Vencimento -->
+                            <div class="form-group col-md-5">
+                                <label>Data Vencimento:</label>
+                                <input type="text" class="form-control formData" name="Contrato_Vencimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask value="<?php echo htmlspecialchars( $contrato["Contrato_Vencimento"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label>Valor:</label>
+                                <input type="text" class="form-control left" name="Contrato_Valor" value="<?php echo htmlspecialchars( $contrato["Contrato_Valor"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label>Quantidade:</label>
+                                <input type="text" class="form-control left" name="Contrato_Qtd" value="<?php echo htmlspecialchars( $contrato["Contrato_Qtd"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
                             </div>
                         </div>
-                        <!-- Conteúdo -->
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="GrupoItemConteudo">Descrição do Conteúdo</label>
-                                <textarea class="form-control" id="GrupoItemConteudo" name="GrupoItemConteudo" rows="5"  placeholder="Digite a descrição do grupo"><?php echo htmlspecialchars( $grupoitem["GrupoItemConteudo"], ENT_COMPAT, 'UTF-8', FALSE ); ?></textarea>
-                            </div>
-                        </div>
-                        <!-- Ordem -->
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="Ordem">Ordem de Exibição do Grupo</label>
-                                <input type="text" class="form-control" id="Ordem" name="Ordem" placeholder="Digite a ordem de exibição" value="<?php echo htmlspecialchars( $grupoitem["Ordem"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-                            </div>
-                        </div>
+
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Salvar</button>

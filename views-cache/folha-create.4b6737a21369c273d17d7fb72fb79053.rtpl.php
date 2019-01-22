@@ -51,7 +51,7 @@
                             <!-- Centro Custo -->
                             <div class="form-group col-md-6">
                                 <label>C Custo:
-                                    <select name="id_Unidade" class="form-control">
+                                    <select name="id_CentroCusto" class="form-control">
                                         <option value="null"> Selecione o Centro de Custo: </option>
                                         <?php $counter1=-1;  if( isset($ccusto) && ( is_array($ccusto) || $ccusto instanceof Traversable ) && sizeof($ccusto) ) foreach( $ccusto as $key1 => $value1 ){ $counter1++; ?>
 
